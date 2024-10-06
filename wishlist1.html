@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Wishlist</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+        }
+        img {
+            width: 200px;
+            height: auto;
+        }
+        a.home-button, a.clear-wishlist, a.back-to-products {
+            display: block;
+            background-color: #ffffff; /* Changed to black */
+            color: rgb(57, 69, 133); /* Text color is white */
+            padding: 10px 20px;
+            margin-top: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            width: 120px;
+            text-align: center;
+            position: absolute;
+            top: 10px;
+        }
+        a.home-button {
+            left: 10px;
+        }
+        a.clear-wishlist {
+            left: 140px;
+        }
+        a.back-to-products {
+            left: 270px; /* Adjust position based on your layout */
+        }
+        a.clear-wishlist:hover, a.home-button:hover, a.back-to-products:hover {
+            opacity: 0.8;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        div#wishlistItems {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    gap: 20px;
+    padding-top: 60px;
+}
+
+div.item {
+    width: 250px; /* Set a fixed width for each item */
+    text-align: center;
+    border: 1px solid #d2cfcf;
+    padding: 10px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fffefe;
+    border-radius: 5px;
+}
+
+div.item img {
+    width: 100%; /* Make the image take up the full width of the item */
+    height: auto;
+}
+        
+        .modal {
+            display: block; /* Show modal by default */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color:#2d4159; 
+        }
+
+        .modal-content {
+            background-color: #cdddff;
+            margin: 15% auto;
+            padding: 10px;
+            border: 1px solid #888;
+            width: 85%;
+        }
+
+        .close {
+            color: #0e0e0e;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: rgb(79, 69, 146);
+            text-decoration: none;
+            cursor: pointer;
+        }
+        /* General Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Header Styles */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+/* Navigation Styles */
+.nav-links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* Added spacing between nav items */
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: #000; /* Change to your preferred color */
+}
+
+/* Product Container Styles */
+.product-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Footer Styles */
+footer {
+    padding: 20px;
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nav-links {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        padding: 5px;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #searchInput {
+        width: 100%; /* Full width on smaller devices */
+        margin: 10px 0; /* Add spacing */
+    }
+
+    .product-container {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    footer {
+        font-size: 14px; /* Smaller font size on mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-links {
+        font-size: 14px; /* Smaller font size for mobile */
+    }
+
+    #searchInput {
+        padding: 10px; /* Add padding for better touch experience */
+    }
+
+    .product-container {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- Modal for wishlist -->
+    <div id="wishlistModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h1>Your Wishlist</h1>
+            <div id="wishlistItems"></div>
+            <a href="index.html" class="Home home-button">Go Home</a>
+            <a href="#" class="clear-wishlist" onclick="clearWishlist()">Clear Wishlist</a>
+        </div>
+    </div>
+
+    <script>
+        const products = {
+            1: { name: "Digital Arts", description: "Robb", price: "₹1926", img: "https://static.vecteezy.com/system/resources/previews/023/574/133/non_2x/fashion-art-portrait-of-beautiful-woman-with-creative-make-up-ai-generative-image-free-photo.jpg" },
+            2: { name: "Encounter the nature", description: "Chanshali Bia", price: "₹1499", img: "https://plus.unsplash.com/premium_photo-1667238544336-17a1cbfd4801?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzN8fHBhaW50aW5nfGVufDB8fDB8fHww" },
+            3: { name: "The art from 1786", description: "Leo lewis", price: "₹99,999", img: "https://images.unsplash.com/photo-1583590019972-a146a712d72a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODR8fG9pbCUyMHBhaW50aW5nfGVufDB8fDB8fHww" },
+            4: { name: "sculpture of lord Ganesha", description: "Indian arts", price: "₹12000", img: "https://images.unsplash.com/photo-1508133111629-be3f6e535a52?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fHNjdWxwdHVyZXMlMjBnYW5lc2glMjBtZXRhbHxlbnwwfHwwfHx8MA%3D%3D" },
+            5: { name: "Mountains & hills", description: "renu Lande", price: "₹1980", img: "https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHByb3RyYWl0JTIwcGFpbnRpbmd8ZW58MHx8MHx8fDA%3D" },
+            6: { name: "Outbreak", description: "Jhon Snow", price: "₹13,000", img: "https://img.artpal.com/481862/82-23-2-26-9-5-28m.jpg" },
+            7: { name: "Mini Home Decor Lippan", description: "Arya", price: "₹2222", img: "https://m.media-amazon.com/images/I/91ulI3MK9LL.jpg" },
+            8: { name: "Bhudda buddha-oil-paint-art-teakwood-canvas-stretched-and-framed-wall-painting", description: "Sansa", price: "₹120", img: "https://images.woodenstreet.de/image/data/da-monica/buddha-oil-paint-art-teakwood-canvas-stretched-and-framed-wall-painting/updated/1.jpg" },
+            9: {
+        name: "Deer Gond Painting",
+        description: "Snehal Lande",
+        price: 22229,
+        img: "https://i.etsystatic.com/24774829/r/il/281804/3339768472/il_600x600.3339768472_e7tv.jpg"
+    },
+    10: {
+        name: "Avocados",
+        description: "Chanshali Bia",
+        price: 11449,
+        img: "https://cdn.pixabay.com/photo/2018/07/03/03/48/avocados-3513048_960_720.jpg"
+    },
+    11: {
+        name: "Modern Abstract Painting",
+        description: "Chanshali Bia",
+        price: 19949,
+        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnUR87GjFjg7Wnv5v78XiFdjepo56uxcLqFw&s"
+    },
+    12: {
+        name: "Sunset Vibes",
+        description: "Artistic",
+        price: 8000,
+        img: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?w=500&auto=format&fit=crop&q=60"
+    },
+    13: {
+        name: "Ocean Dreams",
+        description: "Seaside",
+        price: 9500,
+        img: "https://images.unsplash.com/photo-1515168764331-9f91c2ee5b28?w=500&auto=format&fit=crop&q=60"
+    },
+    14: {
+        name: "Forest Serenity",
+        description: "Nature's Gift",
+        price: 4500,
+        img: "https://images.unsplash.com/photo-1494231218173-93c57e8815c3?w=500&auto=format&fit=crop&q=60"
+    },
+    15: {
+        name: "Vintage Cityscape",
+        description: "Urban Art",
+        price: 12000,
+        img: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?w=500&auto=format&fit=crop&q=60"
+    },
+    16: {
+        name: "The Beauty of Night",
+        description: "Artist: Aaryana",
+        price: 12000,
+        img: "https://cdn.pixabay.com/photo/2019/02/14/07/28/painting-3995999_1280.jpg"
+    },
+    17: {
+        name: "Classical Sculpture",
+        description: "Artist: Luo li rung",
+        price: 1726,
+        img: "https://i.pinimg.com/originals/59/a6/ce/59a6ce733f5e266249bf5ad342b517b3.jpg"
+    },
+    18: {
+        name: "Swan Sculpture",
+        description: "Artist: Chanshali Bia",
+        price: 1499,
+        img: "https://www.htohshop.com/cdn/shop/files/CrystalSwanSculpture-Large_700x.jpg?v=1711301358"
+    },
+    19: {
+        name: "Wood Sculpture",
+        description: "Artist: Leo Lewis",
+        price: 99999,
+        img: "https://i.pinimg.com/originals/09/05/b3/0905b34547c156ed7413684b5d9bda97.jpg"
+    },
+    20: {
+        name: "Sculpture of Lord Ganesha",
+        description: "Artist: Indian Arts",
+        price: 12000,
+        img: "https://images.unsplash.com/photo-1508133111629-be3f6e535a52?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fHNjdWxwdHVyZXMlMjBnYW5lc2glMjBtZXRhbHxlbnwwfHwwfHx8MA%3D%3D"
+    },
+    21: {
+        name: "Kinetic Sculpture",
+        description: "Artist: Renu Lande",
+        price: 1880,
+        img: "https://tse1.mm.bing.net/th?id=OIP.e9g2U3H8M3-YTbl0KsB54AHaFj&pid=Api&P=0&h=180"
+    },
+    22: {
+        name: "Minimalist Sculpture",
+        description: "Artist: Jhon Snow",
+        price: 1000,
+        img: "https://media.tate.org.uk/aztate-prd-ew-dg-wgtail-st1-ctr-data/images/.width-340_4VxSRe2.jpg"
+    },
+    23: {
+        name: "Statue",
+        description: "Artist: Arya",
+        price: 20222,
+        img: "http://thewowstyle.com/wp-content/uploads/2015/02/7831e2ec26dfa0a98d74679e538390ccfamous-statues.jpg"
+    },
+    24: {
+        name: "Modern Sculpture",
+        description: "Artist: Sansa",
+        price: 1120,
+        img: "https://mymodernmet.com/wp/wp-content/uploads/2022/06/Daniel-Popper-Ginkgo-HumanNature-The-Morton-Arboretum-1.jpg"
+    },
+    25: { name: "Thalapaty", description: "Artist: Amala kakkat", price: 14926, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRE4HidiHuDvdFzgcp0OppbA_8hH9wPYVjRKg&s" },
+    26: { name: "The goat life", description: "Artist: Amal kakkat", price: 19499, img: "https://i.pinimg.com/236x/04/4d/cb/044dcb99c46fc180848e826225e0efe9.jpg" },
+    27: { name: "khadhi", description: "Artist: Amal kakkat", price: 99999, img: "https://i.pinimg.com/236x/38/46/48/38464864a6fbb479e2f329c845a037ea.jpg" },
+    28: { name: "Vikram", description: "Artist: Amal kakkat", price: 12000, img: "https://i.pinimg.com/474x/77/5e/d7/775ed7619801bff94f98c33e08a1e27d.jpg" },
+    29: { name: "Rolex", description: "Artist: Amal kakkat", price: 13000, img: "https://i.pinimg.com/236x/5a/c5/4c/5ac54cbd7a6b68034b297f042134d88c.jpg" },
+    30: { name: "vijay DevaraKonda", description: "Artist: Amal kakkat", price: 24222, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSI3EOn0BPAKVNEIHUCVZeLvyVvROEIrIP3w&s" },
+    31: { name: "Sita Ramam", description: "Artist: Amal kakkat", price: 19120, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6NB8_mxL0GlKrqYVCol1HXcDc6so94GIK-g&s" }
+
+    
+        };
+        function addToWishlist(id) {
+    let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    if (!wishlist.includes(id)) {
+        wishlist.push(id);
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+    }
+}
+function removeFromWishlist(id) {
+    let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    wishlist = wishlist.filter(itemId => itemId !== id);
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+    loadWishlist(); // Refresh the wishlist display
+}
+
+
+        function loadWishlist() {
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            const wishlistContainer = document.getElementById('wishlistItems');
+            wishlistContainer.innerHTML = ''; // Clear previous items
+            wishlist.forEach(id => {
+                const product = products[id];
+                if (product) {
+                    wishlistContainer.innerHTML += `<div class="item">
+                        <img src="${product.img}" alt="${product.name}">
+                        <h4>${product.name}</h4>
+                        <p>${product.description}</p>
+                        <p>${product.price}</p>
+                        <button onclick="removeFromWishlist(${id})">Remove</button>
+                    </div>`;
+                }
+            });
+        }
+
+        function addToWishlist(id) {
+    let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    if (!wishlist.includes(id)) {
+        wishlist.push(id);
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        console.log(`Added product ${id} to wishlist`, wishlist);
+    } else {
+        console.log(`Product ${id} is already in the wishlist.`);
+    }
+}
+
+
+        function clearWishlist() {
+            localStorage.removeItem('wishlist');
+            loadWishlist();
+        }
+
+        // Modal functionality
+        var modal = document.getElementById('wishlistModal');
+        var closeModal = document.getElementsByClassName('close')[0];
+
+        // When the user clicks on the close button (x), close the modal
+        closeModal.onclick = function () {
+            modal.style.display = 'none';
+        };
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        };
+
+        // Load the wishlist when the page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            loadWishlist();
+        });
+        function loadWishlist() {
+    let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    const wishlistContainer = document.getElementById('wishlistItems');
+    wishlistContainer.innerHTML = ''; // Clear previous items
+    wishlist.forEach(id => {
+        const product = products[id];
+        if (product) {
+            wishlistContainer.innerHTML += `<div class="item">
+                <img src="${product.img}" alt="${product.name}">
+                <h4>${product.name}</h4>
+                <p>${product.description}</p>
+                <p>${product.price}</p>
+                <button onclick="addToCart(${id})">Add to Cart</button>
+                <button onclick="removeFromWishlist(${id})">Remove</button>
+            </div>`;
+        }
+    });
+}
+
+// Mock function to add product to cart
+function addToCart(id) {
+    // You can implement actual cart functionality here
+    console.log(`Product ${id} added to cart.`);
+    alert(`Product "${products[id].name}" added to cart!`);
+}
+
+    </script>
+</body>
+</html>

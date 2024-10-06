@@ -1,0 +1,15 @@
+{
+  "customers": [
+    {
+      "username": "pavan",
+      "password": "pavan123",
+      "email": "1@gmail.com"
+    },
+    {
+      "username": "priya",
+      "password": "bammmmmm",
+      "email": "priyagoli1926@gmail.com"
+    }
+  ],
+  "sellers": []
+}

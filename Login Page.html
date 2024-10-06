@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login or Sign Up</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: linear-gradient(rgba(45, 65, 89, 0.8), rgba(45, 65, 89, 0.8)), url('https://cdn.pixabay.com/photo/2018/02/04/09/09/brushes-3129361_640.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .overlay {
+            background-color: rgba(45, 65, 89, 0.8);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        .container {
+            z-index: 2;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+        .choice-box, .login-signup-box {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease-in-out;
+        }
+        .choice-box {
+            margin-bottom: 20px;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        button {
+            width: 45%;
+            padding: 14px;
+            margin: 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        .form-box {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 8px;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .form-box h3 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="password"], input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            margin: 12px 0;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        .login-button {
+            width: 100%;
+            padding: 12px;
+            background-color: #2d4159;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .login-button:hover {
+            background-color: #1b2a3d;
+        }
+        .home-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #f7f7f7;
+            color: rgb(40, 55, 93);
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .home-button:hover {
+            background-color: #1b2a3d;
+        }
+        .hidden {
+            display: none;
+        }
+        #welcomeMessage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    padding: 20px;
+   
+    text-align: center;
+    font-size: 24px;
+    z-index: 10;
+    
+}
+
+    </style>
+</head>
+<body>
+    <a href="index.html" class="Home home-button">Home</a>
+    <div class="container">
+        <div class="choice-box" id="choiceBox">
+            <h2>Welcome!</h2>
+            <p>Select an option to proceed:</p>
+            <button onclick="showLoginSignup('login')">Login</button>
+            <button onclick="showLoginSignup('signup')">Sign Up</button>
+        </div>
+
+        <div class="choice-box hidden" id="roleBox">
+            <h2>Are you a Customer or a Seller?</h2>
+            <button onclick="showForm('customer')">Customer</button>
+            <button onclick="showForm('seller')">Seller</button>
+        </div>
+
+        <div class="form-box hidden" id="customerLoginForm">
+            <h3>Customer Login</h3>
+            <form id="customerLogin" onsubmit="handleFormSubmission('customerLogin'); return false;">
+                <input type="text" id="customerLogin-username" name="username" placeholder="Username" required>
+                <input type="password" id="customerLogin-password" name="password" placeholder="Password" required>
+                <button type="submit" class="login-button">Log In</button>
+            </form>
+        </div>
+
+        <div class="form-box hidden" id="customerForm">
+            <h3>Customer Sign Up</h3>
+            <form id="customerRegistrationForm" onsubmit="handleFormSubmission('customer'); return false;">
+                <input type="email" id="customer-email" name="email" placeholder="Email" required>
+                <input type="text" id="customer-username" name="username" placeholder="Username" required>
+                <input type="password" id="customer-password" name="password" placeholder="Password" required>
+                <input type="password" id="customer-confirm-password" name="confirm-password" placeholder="Confirm Password" required>
+                <button type="submit" class="login-button">Sign Up</button>
+            </form>
+        </div>
+        
+        <div class="form-box hidden" id="sellerForm">
+            <h3>Seller Sign Up</h3>
+            <form id="sellerRegistrationForm" onsubmit="handleFormSubmission('seller'); return false;">
+                <input type="email" id="seller-email" name="email" placeholder="Email" required>
+                <input type="text" id="seller-username" name="username" placeholder="Username" required>
+                <input type="password" id="seller-password" name="password" placeholder="Password" required>
+                <input type="password" id="seller-confirm-password" name="confirm-password" placeholder="Confirm Password" required>
+                <button type="submit" class="login-button">Sign Up</button>
+            </form>
+        </div>
+
+        <div class="form-box hidden" id="sellerLoginForm">
+            <h3>Seller Login</h3>
+            <form id="sellerLogin" onsubmit="handleFormSubmission('sellerLogin'); return false;">
+                <input type="text" id="sellerLogin-username" name="username" placeholder="Username" required>
+                <input type="password" id="sellerLogin-password" name="password" placeholder="Password" required>
+                <button type="submit" class="login-button">Log In</button>
+            </form>
+        </div>
+    </div>
+    <div id="welcomeMessage" class="hidden"></div>
+    <a href="index.html" class="Home home-button" id="homeButton">Home</a>
+<a href="#" class="Home home-button hidden" id="reverseArrow" onclick="goBackToChoice()">&larr; Back</a>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        let selectedOption = '';
+    
+        // Show login/signup choices and hide home button, show reverse arrow
+        function showLoginSignup(option) {
+            document.getElementById('choiceBox').classList.add('hidden');
+            document.getElementById('roleBox').classList.remove('hidden');
+            document.getElementById('homeButton').classList.add('hidden'); // Hide home button
+            document.getElementById('reverseArrow').classList.remove('hidden'); // Show reverse arrow
+            selectedOption = option;
+        }
+    
+        // Function to go back to login/signup choice
+        function goBackToChoice() {
+            document.getElementById('roleBox').classList.add('hidden'); // Hide role selection
+            document.getElementById('choiceBox').classList.remove('hidden'); // Show login/signup options
+            document.getElementById('reverseArrow').classList.add('hidden'); // Hide reverse arrow
+            document.getElementById('homeButton').classList.remove('hidden'); // Show home button
+            hideAllForms(); // Hide any form that was shown
+        }
+    
+        // Show form based on role
+        function showForm(role) {
+            document.getElementById('roleBox').classList.add('hidden');
+            hideAllForms(); // Hide all forms before displaying the selected one
+    
+            const formId = selectedOption === 'signup'
+                ? (role === 'customer' ? 'customerForm' : 'sellerForm')
+                : (role === 'customer' ? 'customerLoginForm' : 'sellerLoginForm');
+    
+            document.getElementById(formId).classList.remove('hidden');
+        }
+    
+        // Hide all forms
+        function hideAllForms() {
+            ['customerForm', 'customerLoginForm', 'sellerForm', 'sellerLoginForm'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+        }
+    
+        // Function to handle form submission
+        async function handleFormSubmission(role) {
+            let formData = {};
+            if (role === 'customerLogin') {
+                formData = {
+                    username: document.getElementById('customerLogin-username').value,
+                    password: document.getElementById('customerLogin-password').value,
+                };
+                await loginUser('customer', formData.username, formData.password);
+            } else if (role === 'sellerLogin') {
+                formData = {
+                    username: document.getElementById('sellerLogin-username').value,
+                    password: document.getElementById('sellerLogin-password').value,
+                };
+                await loginUser('seller', formData.username, formData.password);
+            } else if (role === 'seller') {
+                formData = {
+                    username: document.getElementById('seller-username').value,
+                    password: document.getElementById('seller-password').value,
+                    email: document.getElementById('seller-email').value,
+                };
+                const confirmPassword = document.getElementById('seller-confirm-password').value;
+                if (!validatePasswords(formData.password, confirmPassword)) return;
+                await storeUserData('seller', formData);
+            } else {
+                formData = {
+                    username: document.getElementById('customer-username').value,
+                    password: document.getElementById('customer-password').value,
+                    email: document.getElementById('customer-email').value,
+                };
+                const confirmPassword = document.getElementById('customer-confirm-password').value;
+                if (!validatePasswords(formData.password, confirmPassword)) return;
+                await storeUserData('customer', formData);
+            }
+        }
+    
+        // Function to store user data in JSON file
+        async function storeUserData(role, user) {
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        role: role,
+                        username: user.username,
+                        password: user.password,
+                        email: user.email // Only used in signup
+                    }),
+                });
+                const result = await response.json();
+                if (!response.ok) {
+                    throw new Error(result.message || 'Registration failed');
+                }
+                alert('User registered successfully');
+            } catch (error) {
+                alert(`Registration failed: ${error.message}`);
+            }
+        }
+    
+        async function loginUser(role, username, password) {
+    try {
+        const response = await fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                role: role,
+                username: username,
+                password: password,
+            }),
+        });
+        const result = await response.json();
+        if (!response.ok || !result.success) {
+            throw new Error(result.message || 'Login failed');
+        }
+        showWelcomeMessage(username, capitalize(role));
+    } catch (error) {
+        alert(`Login failed: ${error.message}`);
+    }
+}
+
+        // Function to validate passwords
+        function validatePasswords(password, confirmPassword) {
+            if (password.length < 8) {
+                alert('Password must be at least 8 characters long.');
+                return false;
+            }
+            if (password !== confirmPassword) {
+                alert('Passwords do not match.');
+                return false;
+            }
+            return true; // Validation passed
+        }
+    
+        // Helper function to capitalize role names
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+    
+        // Function to show welcome message
+        function showWelcomeMessage(username, role) {
+            const welcomeMessage = `Welcome to Craftopia, ${username}!`;
+            document.getElementById('welcomeMessage').innerHTML = welcomeMessage;
+            document.getElementById('welcomeMessage').classList.remove('hidden');
+    
+            // Hide all other elements
+            document.getElementById('choiceBox').classList.add('hidden');
+            document.getElementById('roleBox').classList.add('hidden');
+            hideAllForms();
+    
+            // Set a timeout to hide the welcome message after 3 seconds
+            setTimeout(() => {
+                document.getElementById('welcomeMessage').classList.add('hidden');
+            }, 3000);
+        }
+    </script>
+    
+     
+</body>
+</html>

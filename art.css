@@ -1,0 +1,404 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Header Section */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2d4159;
+    padding: 10px 20px;
+    color: white;
+}
+.product {
+    position: relative;
+}
+
+.heart-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: gray;
+    cursor: pointer;
+    z-index: 10; /* Ensure the heart icon is above the image */
+    transition: color 0.3s ease;
+}
+
+.heart-icon.red {
+    color: red;
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between; /* Adjust this if needed to fit the layout */
+    list-style-type: none;
+    
+}
+
+.nav-links li {
+    margin-right: 20px; /* Add spacing between links */
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white; /* Adjust this color as per your theme */
+    font-size: 16px;
+}
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    width: 25px; /* Adjust the size of the icon as needed */
+    height: 25px; /* Adjust the size of the icon as needed */
+    margin-right: 10px; /* Space between the icon and the input field */
+}
+
+.header-right input {
+    width: 500px; /* Adjust the width as needed */
+    padding: 8px; /* Add some padding to the input field */
+}
+
+/* Styling for icons to be aligned on the right */
+.icons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px; /* Add padding for better spacing */
+}
+
+/* Style for the wishlist and cart icons */
+.icons span {
+    font-size: 30px;   /* Adjust icon size */
+    color: #ff6347;    /* Set the initial color (Tomato) */
+    margin-left: 15px; /* Adds some spacing between the icons */
+    transition: color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Hover effect for changing color */
+.icons span:hover {
+    color: #dd2222;    /* Change color on hover (Dark Red) */
+}
+
+/* Style for anchor links */
+.icons a {
+    text-decoration: none;
+    margin-left: 15px; /* Spacing between wishlist and cart icons */
+    color: inherit; /* Inherit color from the parent (icons) */
+    transition: color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Hover effect for anchor links */
+.icons a:hover {
+    color: #dd2222; /* Change color on hover (Dark Red) */
+}
+
+
+header .logo img {
+    height: 80px;
+}
+
+.header-right {
+    display: fixed;
+    align-items: center;
+}
+
+.header-right input {
+    padding: 5px;
+    margin-right: 20px;
+    width: 300px;
+}
+
+.header-right .icons span {
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+/* Container Layout */
+.container {
+    display: flex;
+    margin: 40px;
+    top: 50px;
+}
+
+/* Filters Section */
+.filters {
+    width: 250px;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-right: 1px solid #ddd;
+    top:60px;
+}
+
+.filters h2 {
+    margin-bottom: 20px;
+}
+
+.filters ul {
+    list-style-type: none;
+    margin-bottom: 20px;
+}
+
+.filters li {
+    margin-bottom: 10px;
+}
+
+.reset-btn {
+    padding: 10px;
+    background-color: #fcfafa;
+    color: rgb(9, 9, 9);
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+main {
+    margin-top: 32px; /* Adjust this value according to your header's height */
+    padding: 20px; /* Optional: Add padding to the main content */
+}
+
+/* Products Section */
+/* Products Section */
+.products {
+    display: flex;
+    flex-wrap: wrap; /* Ensure items wrap to the next line */
+    gap: 10px; /* Space between items */
+    justify-content: space-between; /* Space out items evenly */
+}
+
+.product {
+    flex: 1 1 calc(33.333% - 10px); /* Responsive sizing for 3 items per row */
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #070707;
+    border-radius: 20px;
+    text-align: center;
+    transition: transform 0.3s ease; /* Smooth zoom effect */
+    position: relative;
+    overflow: hidden;
+} 
+
+.product img {
+    width: 100%; /* Make images fill the product container */
+    height: 300px; /* Fixed height for uniformity */
+    object-fit: cover; /* Cover the area while maintaining aspect ratio */
+    transition: transform 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.product:hover img {
+    transform: scale(1.05); /* Scale up image by 5% */
+}
+
+
+.product-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* Space between items */
+    justify-content: space-between;
+    margin-bottom: 100px; /* Adjust this value to avoid overlap with footer */
+    padding: 20px;
+}
+
+.product button {
+    background-color: #2d4159;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+}
+.add-product-button {
+    display: inline-block;
+    margin-top: 10px;
+    /* Any specific positioning needed */
+}
+
+
+        /* Side Navigation Bar Styles */
+ /* Side Navigation Bar Styles */
+#sideNav {
+    height: calc(100% - 60px); /* Adjust height to start below the header */
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 90px; /* Start the side nav below the header */
+    left: 0;
+    background-color: #2d4159;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 40px; /* Adjust padding if needed */
+}
+
+#sideNav h3 {
+    color: #fbf7f7;
+}
+#sideNav .filters-row,
+#sideNav .sort-by {
+    background-color: white; /* Background color for the rows */
+    padding: 10px; /* Add padding for spacing */
+    margin-bottom: 10px; /* Space between sections */
+    color: #2d4159; /* Text color for filters and sort by */
+}
+#sideNav .filters,
+#sideNav .sort-options {
+    background-color: #2d4159; /* Background color for filters and sort options */
+    color: white; /* Text color */
+    padding: 10px; /* Add padding for spacing */
+}
+#sideNav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #000000;
+    transition: 0.3s;
+}
+
+#sideNav a:hover {
+    color: #070707;
+}
+
+#sideNav .closebtn {
+    position: absolute;
+    top: 40px;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+#openNavBtn {
+    font-size: 12px;
+    cursor: pointer;
+    background-color: #2d4159;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    position: fixed; /* Adjust position as needed */
+    top: 130px; /* Adjust position as needed */
+    left: 10px; /* Adjust position as needed */
+    z-index: 1000; /* Ensure the button is above other elements */
+}
+/* Filters and Sort By Sections */
+#sideNav #filters,
+#sideNav #sortBy {
+    background-color: white; /* Background color for the filters and sort by sections */
+    padding: 10px; /* Add padding for spacing */
+    margin-bottom: 10px; /* Space between sections */
+}
+
+#sideNav #filters h3,
+#sideNav #sortBy h3 {
+    color: #2d4159; /* Text color for headers */
+}
+
+#sideNav #filters label,
+#sideNav #sortBy label {
+    color: #2d4159; /* Text color for labels */
+}
+
+/* Style for the RESET button */
+#sideNav #resetBtn {
+    background-color: #dc5b6e; /* Background color for the reset button */
+    color: rgb(33, 54, 121); /* Text color for the reset button */
+}
+#sideNav .closebtn {
+    color: rgb(0, 0, 0); /* Color for the close button */
+}
+/* General Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Header Styles */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+/* Navigation Styles */
+.nav-links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* Added spacing between nav items */
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: #faf8f8; /* Change to your preferred color */
+}
+
+/* Product Container Styles */
+.product-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Footer Styles */
+footer {
+    padding: 20px;
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nav-links {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        padding: 5px;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #searchInput {
+        width: 100%; /* Full width on smaller devices */
+        margin: 10px 0; /* Add spacing */
+    }
+
+    .product-container {
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    }
+
+    footer {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-links {
+        font-size: 14px; /* Smaller font size for mobile */
+    }
+
+    #searchInput {
+        padding: 10px; /* Add padding for better touch experience */
+    }
+
+    .product-container {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
+}
